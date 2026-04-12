@@ -23,63 +23,43 @@ export default class App extends Component {
     toast.success(<p style={{backgroundColor: "black" , color: "green" , fontSize: "20px"}}> Dasturimizga xush kelibsiz! </p>);
   }
 
-  getData = () => {
-    this.setState({loading : true , notFound : false});
 
-    axios
-      .get(`https://restcountries.com/v3.1/all?fields=name,flags,capital,region,population,languages,currencies`)
-      .then((response) => {
-        console.log(response.data);
-        
-        // if(response.data.Response === "True") {
-        //   this.setState({
-        //     data : response.data,
-        //     notFound : false
-        //   });
-        // } else {
-        //   this.setState({
-        //     data : [],
-        //     notFound : true
-        //   });
-        // }
+  getData = (name = "") => {
+    this.setState({ loading: true, notFound: false });
 
+    const url = name ? `https://restcountries.com/v3.1/name/${name}`
+     : `https://restcountries.com/v3.1/all?fields=name,flags,capital,region,population,languages,currencies`;
 
-if (response.data && response.data.length > 0) {
-  this.setState({
-    data: response.data,
-    notFound: false
+  axios.get(url).then((response) => {
+    this.setState({
+      data: response.data,
+      notFound: false
+    });
+  })
+  .catch(() => {
+    this.setState({
+      data: [],
+      notFound: true
+    });
+  })
+  .finally(() => {
+    this.setState({ loading: false });
   });
-} else {
-  this.setState({
-    data: [],
-    notFound: true
-  });
-}
+};
 
 
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({
-          data : [],
-          notFound : true
-        });
-      })
-      .finally(() => {
-        this.setState({loading : false});
-      });
+handleSubmit = (e) => {
+  e.preventDefault();
+
+  const { search } = this.state;
+
+  if (!search.trim()) {
+    toast.error(`Input ga ma'lumot kiriting!`);
+    return;
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!this.state.search.trim()) {
-      toast.error(`Input ga ma'lumot kiriting!`)
-        return;
-    } 
-    this.getData();
-  }
-
+  this.getData(search); 
+};
 
   render() {
     return (
@@ -94,8 +74,8 @@ if (response.data && response.data.length > 0) {
               })
             }} value={this.state.search} className="search" type="search"/>
             <button className='button' type='submit'> Search </button>
-          </form>
-            <select name="select" className="select search">
+
+   <select name="select" className="select">
               <option value="All Regions"> All Regions </option>
               <option value="Asia"> Asia </option>
               <option value="Europe"> Europe </option>
@@ -105,6 +85,18 @@ if (response.data && response.data.length > 0) {
               <option value="Australia and Oceania"> Australia and Oceania </option>
               <option value="Antarctica"> Antarctica </option>
             </select>
+
+          </form>
+            {/* <select name="select" className="select">
+              <option value="All Regions"> All Regions </option>
+              <option value="Asia"> Asia </option>
+              <option value="Europe"> Europe </option>
+              <option value="Africa"> Africa </option>
+              <option value="North America"> North America </option>
+              <option value="South America"> South America </option>
+              <option value="Australia and Oceania"> Australia and Oceania </option>
+              <option value="Antarctica"> Antarctica </option>
+            </select> */}
         </div> 
     </nav>
 
