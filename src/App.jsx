@@ -47,7 +47,6 @@ export default class App extends Component {
   });
 };
 
-
 handleSubmit = (e) => {
   e.preventDefault();
 
@@ -57,7 +56,6 @@ handleSubmit = (e) => {
     toast.error(`Input ga ma'lumot kiriting!`);
     return;
   }
-
   this.getData(search); 
 };
 
@@ -75,7 +73,7 @@ handleSubmit = (e) => {
             }} value={this.state.search} className="search" type="search"/>
             <button className='button' type='submit'> Search </button>
 
-   <select name="select" className="select">
+            <select name="select" className="select">
               <option value="All Regions"> All Regions </option>
               <option value="Asia"> Asia </option>
               <option value="Europe"> Europe </option>
@@ -85,18 +83,7 @@ handleSubmit = (e) => {
               <option value="Australia and Oceania"> Australia and Oceania </option>
               <option value="Antarctica"> Antarctica </option>
             </select>
-
           </form>
-            {/* <select name="select" className="select">
-              <option value="All Regions"> All Regions </option>
-              <option value="Asia"> Asia </option>
-              <option value="Europe"> Europe </option>
-              <option value="Africa"> Africa </option>
-              <option value="North America"> North America </option>
-              <option value="South America"> South America </option>
-              <option value="Australia and Oceania"> Australia and Oceania </option>
-              <option value="Antarctica"> Antarctica </option>
-            </select> */}
         </div> 
     </nav>
 
